@@ -1,20 +1,15 @@
-import 'reflect-metadata';
-import express from 'express';
-import { attachControllers } from '@decorators/express';
+import { initializeApplication, startApplication } from './core';
 import { HelloController } from './controllers/HelloController';
 
-// Create Express application
-const app = express();
+// Initialize the application with configuration
+const app = initializeApplication({
+  name: 'Testing API',
+  port: 3000,
+  controllers: [HelloController]
+});
 
-// Middleware for parsing JSON bodies
-app.use(express.json());
-
-// Attach controllers
-attachControllers(app, [HelloController]);
-
-const PORT = process.env.PORT || 3000;
-
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
-  console.log(`Visit http://localhost:${PORT}/hello to test the application`);
+// Start the application
+startApplication(app, {
+  name: 'Testing API',
+  port: 3000
 });
